@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="samirGreenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="50%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#047857" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Green Background Squircle / Safe Mask -->
+  <rect width="512" height="512" rx="128" fill="url(#samirGreenGrad)" />
+
+  <!-- Outer Protective Shield Motif -->
+  <path d="M256 64L100 132V240C100 342 168 438 256 460C344 438 412 342 412 240V132L256 64Z" 
+        fill="#ffffff" 
+        fill-opacity="0.12" />
+
+  <!-- Shield Inner Border -->
+  <path d="M256 96L128 152V240C128 325 183 406 256 426C329 406 384 325 384 240V152L256 96Z" 
+        stroke="#ffffff" 
+        stroke-opacity="0.25" 
+        stroke-width="8" 
+        fill="none" />
+
+  <!-- Center SP Monogram in Crisp White -->
+  <!-- Stylized S and P intertwined -->
+  <path d="M190 200C190 170 215 150 250 150H305C335 150 355 170 355 200C355 230 335 250 305 250H235C205 250 185 270 185 300C185 330 205 350 235 350H325" 
+        stroke="#ffffff" 
+        stroke-width="36" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none" 
+        filter="url(#subtleGlow)" />
+
+  <!-- Electric Mint Lightning Flash (Speed of UPI) -->
+  <path d="M295 240L215 380H285L255 450L355 330H285L295 240Z" 
+        fill="#6EE7B7" 
+        stroke="#047857" 
+        stroke-width="6" 
+        stroke-linejoin="round" />
+
+  <!-- UPI Badge Pill -->
+  <rect x="186" y="80" width="140" height="36" rx="18" fill="#ffffff" fill-opacity="0.2" />
+  <text x="256" y="104" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="900" fill="#ffffff" letter-spacing="4">UPI 2.0</text>
+</svg>

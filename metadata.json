@@ -1,0 +1,6 @@
+{
+  "name": "Samir Pay",
+  "description": "Mobile-friendly green & white UPI payment app with QR scanner, Send & Receive money, UPI PIN authorization, and transaction history.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

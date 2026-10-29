@@ -1,0 +1,13 @@
+{
+  "appId": "com.samirpay.app",
+  "appName": "Samir Pay",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "backgroundColor": "#059669"
+  }
+}

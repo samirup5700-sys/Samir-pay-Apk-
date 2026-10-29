@@ -1,0 +1,79 @@
+name: Build Samir Pay Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Allows manual 1-click trigger from mobile phone browser
+
+jobs:
+  build:
+    name: Build Samir Pay APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install NPM Dependencies
+        run: npm ci || npm install
+
+      - name: Build Web Application
+        run: npm run build
+
+      - name: Sync Capacitor Android
+        run: npx cap sync android
+
+      - name: Make Gradle Executable
+        run: |
+          cd android
+          chmod +x gradlew
+
+      - name: Build Debug & Release APK
+        run: |
+          cd android
+          ./gradlew assembleDebug assembleRelease --stacktrace
+
+      - name: Sign Release APK with Keystore
+        run: |
+          # Create a release keystore on the fly for signing
+          keytool -genkeypair -v -keystore release.keystore -alias samirpay -keyalg RSA -keysize 2048 -validity 10000 -storepass samirpay123 -keypass samirpay123 -dname "CN=Samir Pay, OU=Mobile, O=SamirPay, L=Mumbai, S=Maharashtra, C=IN"
+          
+          # Find apksigner from Android SDK build-tools
+          APKSIGNER=$(find $ANDROID_HOME/build-tools -name apksigner | sort -r | head -n 1)
+          
+          # Sign the unsigned release APK
+          $APKSIGNER sign --ks release.keystore --ks-key-alias samirpay --ks-pass pass:samirpay123 --key-pass pass:samirpay123 --out android/app/build/outputs/apk/release/SamirPay-Signed-Release.apk android/app/build/outputs/apk/release/app-release-unsigned.apk
+          
+          echo "Release APK signed successfully!"
+
+      - name: Upload Signed Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SamirPay-Signed-Release-APK
+          path: android/app/build/outputs/apk/release/SamirPay-Signed-Release.apk
+          retention-days: 30
+
+      - name: Upload Installable Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SamirPay-Installable-Debug-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
