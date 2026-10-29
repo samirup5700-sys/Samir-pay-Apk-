@@ -1,4 +1,4 @@
-name: Build Samir Pay Android APK
+name: Build Android APK
 
 on:
   push:
